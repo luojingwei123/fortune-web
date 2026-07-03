@@ -61,6 +61,17 @@ button, a, [role="button"] {
   touch-action: manipulation;
 }
 
+/* ⭐ iOS Safari 修复：输入框字号 ≥ 16px 防止自动放大 */
+input, textarea, select {
+  font-size: 16px !important;
+}
+@media (min-width: 768px) {
+  /* PC 端恢复可自定义字号 */
+  input, textarea, select {
+    font-size: inherit !important;
+  }
+}
+
 body {
   font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "Times New Roman", serif;
   color: var(--ink);
