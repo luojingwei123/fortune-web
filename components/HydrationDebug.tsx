@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * 临时诊断组件：显示 JS/hydration 是否激活
- * 部署验证完删除
+ * 诊断组件：显示 JS/hydration 是否激活
  */
 export default function HydrationDebug() {
   const [mounted, setMounted] = useState(false);
@@ -12,7 +11,6 @@ export default function HydrationDebug() {
 
   useEffect(() => {
     setMounted(true);
-    // 挂个全局标记，方便控制台检查
     if (typeof window !== "undefined") {
       (window as any).__HYDRATED__ = true;
       console.log("[fortune-web] hydration OK · React mounted");
@@ -25,19 +23,21 @@ export default function HydrationDebug() {
         position: "fixed",
         top: 8,
         left: 8,
-        zIndex: 9999,
+        zIndex: 99999,
         background: mounted ? "#10b981" : "#ef4444",
         color: "white",
-        padding: "4px 10px",
-        borderRadius: 4,
-        fontSize: 11,
+        padding: "6px 12px",
+        borderRadius: 6,
+        fontSize: 12,
         fontFamily: "monospace",
         boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
         cursor: "pointer",
+        userSelect: "none",
+        WebkitTapHighlightColor: "transparent",
       }}
       onClick={() => setClicks((c) => c + 1)}
     >
-      {mounted ? `✓ JS OK · 点击测试: ${clicks}` : "✗ NO JS"}
+      {mounted ? `✓ JS OK · 点击: ${clicks}` : "✗ NO JS"}
     </div>
   );
 }
