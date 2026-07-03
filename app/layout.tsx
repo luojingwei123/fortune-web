@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import HydrationDebug from "@/components/HydrationDebug";
 
 export const metadata: Metadata = {
   title: "四种传承术数，一次娱乐体验 · Fortune",
@@ -21,7 +22,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <HydrationDebug />
+        {children}
+      </body>
     </html>
   );
 }
