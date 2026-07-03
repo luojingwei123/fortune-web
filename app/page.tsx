@@ -20,7 +20,7 @@ const methods = [
     href: "/meihua",
     icon: Flower2,
     accent: "from-stone-500 to-stone-700",
-    status: "coming",
+    status: "available",
   },
   {
     key: "liuyao",
@@ -30,7 +30,7 @@ const methods = [
     href: "/liuyao",
     icon: Coins,
     accent: "from-slate-700 to-slate-900",
-    status: "coming",
+    status: "available",
   },
   {
     key: "ziwei",
@@ -40,7 +40,7 @@ const methods = [
     href: "/ziwei",
     icon: Star,
     accent: "from-violet-900 to-slate-950",
-    status: "coming",
+    status: "available",
   },
 ];
 
