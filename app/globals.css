@@ -48,6 +48,14 @@ html,
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 移动端优化 */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 所有可点击元素去除 300ms 延迟 */
+button, a, [role="button"] {
+  touch-action: manipulation;
 }
 
 body {
@@ -96,7 +104,6 @@ body {
   background: radial-gradient(ellipse at center, #1a1450 0%, #0A0E27 40%, #050815 100%);
   color: var(--ziwei-star);
   min-height: 100vh;
-  overflow: hidden;
 }
 
 /* ---------- 塔罗星光背景（伪元素点点） ---------- */
