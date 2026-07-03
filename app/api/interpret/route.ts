@@ -228,7 +228,8 @@ export async function POST(req: NextRequest) {
   // 3. 检查环境变量
   const apiKey = process.env.LLM_API_KEY;
   const baseUrl = process.env.LLM_BASE_URL;
-  const model = process.env.LLM_MODEL || "mlamp/deepseek-v4-flash";
+  // 模型绑定为 deepseek-v4-flash（速度优与Deepseek pro一致的维护）
+  const model = "mlamp/deepseek-v4-flash";
   if (!apiKey || !baseUrl) {
     return new Response(
       JSON.stringify({ error: "LLM 未配置，请联系管理员" }),
