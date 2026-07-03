@@ -83,7 +83,7 @@ export default function Home() {
             className="text-sm md:text-base text-[var(--ink-soft)] tracking-widest"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
           >
-            塔罗 · 梅花易 · 六爻 · 紫微斗数
+            梅花易 · 六爻 · 紫微斗数 · 塔罗
           </p>
         </section>
 
