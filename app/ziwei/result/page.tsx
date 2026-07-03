@@ -12,6 +12,7 @@ import {
   type ZiweiChartMini,
   type ZiweiInterpretation,
 } from "@/data/ziwei";
+import AiInterpretation from "@/components/AiInterpretation";
 
 // 十二地支的相对位置（顺时针从子开始）
 // 命盘布局：紫微斗数命盘按地支排（子在正下方偏右，顺时针 12 宫）
@@ -397,6 +398,74 @@ function ZiweiResultInner() {
           {interp.overall}
         </p>
       </motion.section>
+
+      {/* AI 深度解读 */}
+      {(() => {
+        const ming = chart.palaces.find((p) => p.isMing);
+        const shen = chart.palaces.find((p) => p.isShen);
+        const currentDx = chart.palaces.find((p) => p.isCurrentDaXian);
+        const shichenNames = [
+          "早子时",
+          "丑时",
+          "寅时",
+          "卯时",
+          "辰时",
+          "巳时",
+          "午时",
+          "未时",
+          "申时",
+          "酉时",
+          "戌时",
+          "亥时",
+          "晚子时",
+        ];
+        const palacesSummary = chart.palaces
+          .map((p) => {
+            const majors = p.stars
+              .filter((s) => s.type === "major")
+              .map((s) => s.name);
+            return `  · **${p.name}**（${p.branchName}）：${majors.length ? majors.join("、") : "空宫"}`;
+          })
+          .join("\n");
+        return (
+          <AiInterpretation
+            method="ziwei"
+            question={question}
+            themeColor="#C9A227"
+            themeLabel="紫微"
+            loadingSymbol="✦"
+            data={{
+              year: y,
+              month: m,
+              day: d,
+              shichenName: shichenNames[h] || "未知",
+              gender: g,
+              currentAge: chart.currentAge,
+              wuxingJu: chart.wuxingJuName,
+              mingGongBranch: chart.mingGongBranch,
+              mingStars: ming?.stars
+                .filter((s) => s.type === "major")
+                .map((s) => s.name)
+                .join("、"),
+              shenGongBranch: chart.shenGongBranch,
+              shenStars: shen?.stars
+                .filter((s) => s.type === "major")
+                .map((s) => s.name)
+                .join("、"),
+              ziweiPos: chart.ziweiPos,
+              palacesSummary,
+              daXianRange: currentDx?.daXianRange
+                ? `${currentDx.daXianRange[0]}-${currentDx.daXianRange[1]}`
+                : "未知",
+              daXianPalaceName: currentDx?.name || "未知",
+              daXianStars: currentDx?.stars
+                .filter((s) => s.type === "major")
+                .map((s) => s.name)
+                .join("、"),
+            }}
+          />
+        );
+      })()}
 
       {/* 操作 */}
       <section className="flex flex-col sm:flex-row gap-3 justify-center items-center">

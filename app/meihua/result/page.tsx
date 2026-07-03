@@ -9,6 +9,7 @@ import {
   buildMeihuaResult,
   buildMeihuaInterpretation,
 } from "@/data/meihua";
+import AiInterpretation from "@/components/AiInterpretation";
 
 interface HexLineProps {
   filled: number; // 1 阳（连线） 0 阴（断线）
@@ -292,6 +293,46 @@ function MeihuaResultInner() {
           {interp.overall}
         </p>
       </motion.section>
+
+      {/* AI 深度解读 */}
+      <AiInterpretation
+        method="meihua"
+        question={question}
+        themeColor="#B22222"
+        themeLabel="梅花易"
+        loadingSymbol="☘"
+        data={{
+          methodDesc:
+            method === "time"
+              ? "时间起卦（依照起卦时心年月日时）"
+              : method === "number"
+                ? "数字起卦（用户直觉写下两个数字）"
+                : "字数起卦（用户写下一句话）",
+          benGuaName: result.benGua.name,
+          upperName: result.upper.name,
+          lowerName: result.lower.name,
+          benGuaCi: result.benGua.guaci,
+          benXiangCi: result.benGua.xiangci,
+          dongYao: result.dongYao,
+          bianGuaName: result.bianGua?.name || "",
+          bianGuaCi: result.bianGua?.guaci || "",
+          bianXiangCi: result.bianGua?.xiangci || "",
+          tiName: result.ti.name,
+          tiElement: result.ti.element,
+          yongName: result.yong.name,
+          yongElement: result.yong.element,
+          tiYongLabel:
+            result.tiYong === "yong_sheng_ti"
+              ? "用生体（吉）"
+              : result.tiYong === "ti_sheng_yong"
+                ? "体生用（泄气）"
+                : result.tiYong === "yong_ke_ti"
+                  ? "用克体（凶）"
+                  : result.tiYong === "ti_ke_yong"
+                    ? "体克用（可胜）"
+                    : "体用比和（吉）",
+        }}
+      />
 
       {/* 操作 */}
       <section className="flex flex-col sm:flex-row gap-3 justify-center items-center">

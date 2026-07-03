@@ -13,6 +13,7 @@ import {
   buildActionAdvice,
   buildOverallAdvice,
 } from "@/data/interpretation";
+import AiInterpretation from "@/components/AiInterpretation";
 
 interface ParsedCard {
   cardId: number;
@@ -284,6 +285,30 @@ function TarotResultInner() {
           {overallAdvice}
         </p>
       </motion.section>
+
+      {/* AI 深度解读 */}
+      <AiInterpretation
+        method="tarot"
+        question={question}
+        themeColor="#D4AF37"
+        themeLabel="塔罗"
+        loadingSymbol="✦"
+        data={{
+          spreadName: spread.name,
+          spreadDesc: spread.desc,
+          cards: drawnCards.map((d) => ({
+            positionLabel: d.position.label,
+            positionHint: d.position.hint,
+            nameCn: d.card.nameCn,
+            reversed: d.reversed,
+            suitLabel: suitLabels[d.card.suit],
+            keywordsPositive: d.card.keywordsPositive,
+            keywordsNegative: d.card.keywordsNegative,
+            uprightText: d.card.upright,
+            reversedText: d.card.reversed,
+          })),
+        }}
+      />
 
       {/* 操作 */}
       <section className="flex flex-col sm:flex-row gap-3 justify-center items-center">

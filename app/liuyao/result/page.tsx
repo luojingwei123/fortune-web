@@ -10,6 +10,7 @@ import {
   buildLiuyaoInterpretation,
 } from "@/data/liuyao";
 import { trigrams } from "@/data/iching";
+import AiInterpretation from "@/components/AiInterpretation";
 
 const yaoNames = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
 
@@ -335,6 +336,31 @@ function LiuyaoResultInner() {
           {interp.overall}
         </p>
       </motion.section>
+
+      {/* AI 深度解读 */}
+      <AiInterpretation
+        method="liuyao"
+        question={question}
+        themeColor="#B08D57"
+        themeLabel="六爻"
+        loadingSymbol="⚯"
+        data={{
+          benGuaName: result.benGua.name,
+          upperName: result.benGua.upper,
+          lowerName: result.benGua.lower,
+          benGuaCi: result.benGua.guaci,
+          benXiangCi: result.benGua.xiangci,
+          bianGuaName: result.bianGua?.name || "",
+          bianGuaCi: result.bianGua?.guaci || "",
+          bianXiangCi: result.bianGua?.xiangci || "",
+          dongYaoNames:
+            result.dongYaoPositions.length === 0
+              ? "无动爻"
+              : result.dongYaoPositions.map((p) => yaoNames[p - 1]).join("、"),
+          shiName: yaoNames[result.shiPos - 1],
+          yingName: yaoNames[result.yingPos - 1],
+        }}
+      />
 
       {/* 操作 */}
       <section className="flex flex-col sm:flex-row gap-3 justify-center items-center">
