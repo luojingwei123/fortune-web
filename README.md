@@ -4,9 +4,11 @@
 >
 > 塔罗 · 梅花易数 · 六爻 · 紫微斗数
 
-一个响应式的中式算命 Web 应用(PC + 移动端一套代码),首页简洁四卡片入口,每种算命方式进入后有各自独立的视觉风格与交互流程。
+一个响应式的中式算命 Web 应用（PC + 移动端一套代码），首页简洁四卡片入口，每种算命方式进入后有各自独立的视觉风格与交互流程。
 
-⚠️ **本项目仅为传统术数文化展示与娱乐体验,不构成任何指导意见,请理性对待。**
+🌐 **公网地址**：<https://fortune-web-peach.vercel.app>
+
+⚠️ **本项目仅为传统术数文化展示与娱乐体验，不构成任何指导意见，请理性对待。**
 
 ---
 
@@ -19,7 +21,7 @@
 | **V0.2** | **梅花易数**(时间/数字/字数三种起卦 · 本卦+变卦+动爻+体用生克) | ✅ 完成 |
 | **V0.3** | **六爻起卦**(三枚铜钱摇 6 次 · 世应+动爻+断卦) | ✅ 完成 |
 | **V0.4** | **紫微斗数**(生辰 → 十二宫命盘 · 命宫身宫大限) | ✅ 完成 |
-| V1.0 | 部署上线 · Cloudflare Pages / Vercel | 🚧 待部署 |
+| V1.0 | 🚀 部署上线(Vercel Production)| ✅ 完成 |
 
 ---
 
@@ -169,16 +171,18 @@ fortune-web/
    - 塔罗抽牌:分排铺开 + hover 突出 + 两次点击确认 + 每次洗牌
 5. **主题 CSS 变量**:`.theme-tarot / .theme-meihua / .theme-liuyao / .theme-ziwei` 已在 `globals.css` 定义
 6. **紫微用 iztro 库**:`npm i iztro`,在客户端组件里 `await import('iztro')`。iztro 会自己处理农历、干支、安星
-7. **下一步(V1.0)**:部署到 Cloudflare Pages 或 Vercel
-   - 推荐 Vercel(Next.js 官方):`vercel` CLI 一键
-   - Cloudflare Pages 也 OK,需要 `output: 'export'` 或用 `@cloudflare/next-on-pages`
-   - 图片 8.6 MB 静态资源没问题
-8. **AI 深度解读（V0.5）**：每个结果页下方有一个“生成 AI 深度解读”按钮，前端 POST `/api/interpret` → 后端拼 prompt 调 DeepSeek V4 Pro（通过 `https://octogw.imocto.cn/v1` 网关）→ 流式返回 SSE。环境变量放 `.env.local`：    ```    LLM_API_KEY=<mlamp octopush 网关 key>    LLM_BASE_URL=https://octogw.imocto.cn/v1    LLM_MODEL=mlamp/deepseek-v4-pro    ```    限流：每 IP 每秒最多 3 个请求（内存 bucket、重启后重置）。
-9. **可能的后续优化**：
+7. **部署信息**:
+   - 已部署到 **Vercel Production**:`https://fortune-web-peach.vercel.app`
+   - Vercel 项目名:`luojingwei/fortune-web`
+   - 部署方式:`~/.npm-global/bin/vercel --prod --yes`(已在项目目录 link 与登录)
+   - 环境变量已在 Vercel 面板设置:`LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL`
+   - GitHub 未自动接入 Vercel(link 时授权失败),后续部署需手动跑 `vercel --prod`
+8. **AI 深度解读(V0.5)**:每个结果页下方有一个"生成 AI 深度解读"按钮,前端 POST `/api/interpret` → 后端拼 prompt 调 DeepSeek V4 Pro(通过 `https://octogw.imocto.cn/v1` 网关)→ 流式返回 SSE。环境变量放 `.env.local`:    ```    LLM_API_KEY=<mlamp octopush 网关 key>    LLM_BASE_URL=https://octogw.imocto.cn/v1    LLM_MODEL=mlamp/deepseek-v4-pro    ```    限流:每 IP 每秒最多 3 个请求(内存 bucket、重启后重置)。
+9. **可能的后续优化**:
    - 塔罗大牌阵结果长条堆叠可以做左右滑动
-   - 紫微命盘手机端 4×4 太挤，可以改成上下滑动列表
-   - 加“结果分享图”（生成海报）
-   - 加“抽卡历史”（localStorage 存最近 5 次）
+   - 紫微命盘手机端 4×4 太挤,可以改成上下滑动列表
+   - 加"结果分享图"(生成海报)
+   - 加"抽卡历史"(localStorage 存最近 5 次)
 
 ---
 
@@ -212,9 +216,10 @@ fortune-web/
 | 2026-07-03 | V0.1.1 | 塔罗交互重写:分排铺牌、两次点击确认、每次洗牌;六段式解读 + 5 部分综合建议 |
 | 2026-07-03 | V0.2   | 梅花易数(时间/数字/字数起卦 + 本卦变卦动爻体用生克 + 大段断卦)|
 | 2026-07-03 | V0.3   | 六爻起卦(三铜钱摇 6 次 + 本卦变卦 + 世应 + 八宫定位 + 断卦)|
-| 2026-07-03 | V0.4   | 紫微斗数（iztro 排盘 + 4×4 十二宫命盘 + 命宫身宫大限主星解读）|
-| 2026-07-03 | V0.4.1 | 首页顺序调整（塔罗放最后）+ 4 页入口加起卦方式介绍板块 |
-| 2026-07-03 | V0.5   | AI 深度解读（DeepSeek V4 Pro 流式输出 · 秒级限流 3/s · 开关式按钮）|
+| 2026-07-03 | V0.4   | 紫微斗数(iztro 排盘 + 4×4 十二宫命盘 + 命宫身宫大限主星解读)|
+| 2026-07-03 | V0.4.1 | 首页顺序调整(塔罗放最后)+ 4 页入口加起卦方式介绍板块 |
+| 2026-07-03 | V0.5   | AI 深度解读(DeepSeek V4 Pro 流式输出 · 秒级限流 3/s · 开关式按钮)|
+| 2026-07-04 | V1.0   | 部署上线 Vercel Production · https://fortune-web-peach.vercel.app |
 
 ---
 
