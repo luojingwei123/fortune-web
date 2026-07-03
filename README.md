@@ -4,11 +4,11 @@
 >
 > 塔罗 · 梅花易数 · 六爻 · 紫微斗数
 
-一个响应式的中式算命 Web 应用（PC + 移动端一套代码），首页简洁四卡片入口，每种算命方式进入后有各自独立的视觉风格与交互流程。
+一个响应式的中式算命 Web 应用(PC + 移动端一套代码),首页简洁四卡片入口,每种算命方式进入后有各自独立的视觉风格与交互流程。
 
-🌐 **公网地址**：<https://fortune-web-peach.vercel.app>
+🌐 **公网地址**：<https://fortune-web-pdyr.onrender.com>
 
-⚠️ **本项目仅为传统术数文化展示与娱乐体验，不构成任何指导意见，请理性对待。**
+⚠️ **本项目仅为传统术数文化展示与娱乐体验,不构成任何指导意见,请理性对待。**
 
 ---
 
@@ -171,12 +171,16 @@ fortune-web/
    - 塔罗抽牌:分排铺开 + hover 突出 + 两次点击确认 + 每次洗牌
 5. **主题 CSS 变量**:`.theme-tarot / .theme-meihua / .theme-liuyao / .theme-ziwei` 已在 `globals.css` 定义
 6. **紫微用 iztro 库**:`npm i iztro`,在客户端组件里 `await import('iztro')`。iztro 会自己处理农历、干支、安星
-7. **部署信息**:
-   - 已部署到 **Vercel Production**:`https://fortune-web-peach.vercel.app`
-   - Vercel 项目名:`luojingwei/fortune-web`
-   - 部署方式:`~/.npm-global/bin/vercel --prod --yes`(已在项目目录 link 与登录)
-   - 环境变量已在 Vercel 面板设置:`LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL`
-   - GitHub 未自动接入 Vercel(link 时授权失败),后续部署需手动跑 `vercel --prod`
+7. **部署信息**：
+   - 已部署到 **Render.com Web Service**：`https://fortune-web-pdyr.onrender.com` ⭐国内直连无需代理
+   - Render 服务名：`fortune-web` · Region: Singapore · Free Tier
+   - Build Command: `npm install && npm run build`
+   - Start Command: `npm run start`
+   - **关键隷：把 `tailwindcss` / `@tailwindcss/postcss` / `typescript` / `@types/*` 从 devDependencies 挨到 dependencies**（否则 Render production 安装时会跳过导致 build 失败）
+   - 环境变量已在 Render 面板设置：`LLM_API_KEY` / `LLM_BASE_URL` / `LLM_MODEL` / `NODE_ENV`
+   - GitHub push main → Render 自动重新部署
+   - 保活任务：cron-job.org Job ID **7992120** 每 10 分钟 ping 一次（防止 Free tier 15 分钟无请求 sleep）
+   - **之前的 Vercel 部署已不再使用**（可删除、也可保留作备份）
 8. **AI 深度解读(V0.5)**:每个结果页下方有一个"生成 AI 深度解读"按钮,前端 POST `/api/interpret` → 后端拼 prompt 调 DeepSeek V4 Pro(通过 `https://octogw.imocto.cn/v1` 网关)→ 流式返回 SSE。环境变量放 `.env.local`:    ```    LLM_API_KEY=<mlamp octopush 网关 key>    LLM_BASE_URL=https://octogw.imocto.cn/v1    LLM_MODEL=mlamp/deepseek-v4-pro    ```    限流:每 IP 每秒最多 3 个请求(内存 bucket、重启后重置)。
 9. **可能的后续优化**:
    - 塔罗大牌阵结果长条堆叠可以做左右滑动
@@ -220,6 +224,8 @@ fortune-web/
 | 2026-07-03 | V0.4.1 | 首页顺序调整(塔罗放最后)+ 4 页入口加起卦方式介绍板块 |
 | 2026-07-03 | V0.5   | AI 深度解读(DeepSeek V4 Pro 流式输出 · 秒级限流 3/s · 开关式按钮)|
 | 2026-07-04 | V1.0   | 部署上线 Vercel Production · https://fortune-web-peach.vercel.app |
+| 2026-07-04 | V1.1   | 首页顺序/描述调整（梅花/六爻/紫微/塔罗）+ LLM prompt 重写为“先结论后详解” |
+| 2026-07-04 | V1.2   | 迁移部署至 Render.com Web Service → https://fortune-web-pdyr.onrender.com · 国内直连无需代理 |
 
 ---
 
