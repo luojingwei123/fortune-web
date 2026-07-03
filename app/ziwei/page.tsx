@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Star } from "lucide-react";
+import CollapsibleIntro from "@/components/CollapsibleIntro";
 
 // 时辰
 const shichenList = [
@@ -93,43 +94,30 @@ export default function ZiweiIntro() {
       </section>
 
       {/* 说明 */}
-      <section
-        className="mb-10 md:mb-14 p-5 md:p-7 rounded-lg border"
-        style={{
-          borderColor: "rgba(201,162,39,0.25)",
-          background: "rgba(155,89,182,0.05)",
-        }}
+      <CollapsibleIntro
+        themeColor="#C9A227"
+        summary={
+          <p>
+            <span style={{ color: "var(--ziwei-gold)" }}>紫微斗数</span>是中国古代星象命理术，以你的出生年月日时四柱为依据，将十四主星分布于十二宫，一盘见一生。
+          </p>
+        }
       >
-        <div
-          className="text-xs tracking-[0.3em] mb-3"
-          style={{
-            fontFamily: "'Cinzel', serif",
-            color: "var(--ziwei-gold)",
-          }}
-        >
-          ABOUT THIS METHOD
-        </div>
-        <div
-          className="text-sm md:text-[15px] leading-loose opacity-90 space-y-2"
-          style={{ fontFamily: "'Noto Serif SC', serif" }}
-        >
-          <p>
-            <span style={{ color: "var(--ziwei-gold)" }}>紫微斗数</span>是中国古代星象命理术，以北斗中的“紫微大帝”为主星而得名。相传为宋代华山道士陈希夷（陈滂）所创，具体法门在明代《紫微斗数全书》中定型，又称“天下第一神数”。
-          </p>
-          <p>
-            <span style={{ color: "var(--ziwei-gold)" }}>排盘方式</span>：以你的出生年、月、日、时辰四柱为依据，先定命宫与身宫位置，再据“五行局”安紫微星，以紫微为首逐一安定十四主星（紫微、天机、太阳、武曲、天同、廉贞、天府、太阴、贪狼、巨门、天相、天梁、七杀、破军）及各类辅星、煎星、杂耀，之后确定大限与四化。
-          </p>
-          <p>
-            <span style={{ color: "var(--ziwei-gold)" }}>十二宫</span>分别是：命宫、兄弟、夫妻、子女、财帛、疾厄、迁移、仆役（友宫）、官禄（事业）、田宅、福德、父母。一盘长得什么样，就看十四主星分别落到哪一宫。
-          </p>
-          <p>
-            <span style={{ color: "var(--ziwei-gold)" }}>大限</span>是以十年为一周期的大运，从命宫起顺逆旋行十二宫，一个人一生会经历 8-9 个大限，每个十年各有制高点。
-          </p>
-          <p className="opacity-70 text-xs md:text-sm pt-1">
-            本站使用开源库 <span className="italic">iztro</span>（MIT）进行排盘，只需你提供公历生辰 + 时辰 + 性别，即可得到完整命盘。
-          </p>
-        </div>
-      </section>
+        <p>
+          相传为宋代华山道士陈抟（陈希夷）所创，明代《紫微斗数全书》中定型，又称"天下第一神数"。以北斗中的"紫微大帝"为主星而得名。
+        </p>
+        <p>
+          <span style={{ color: "var(--ziwei-gold)" }}>排盘方式</span>：以你的出生年、月、日、时辰四柱为依据，先定命宫与身宫位置，再据"五行局"安紫微星，以紫微为首逐一安定十四主星（紫微、天机、太阳、武曲、天同、廉贞、天府、太阴、贪狼、巨门、天相、天梁、七杀、破军）及各类辅星、煞星、杂耀，之后确定大限与四化。
+        </p>
+        <p>
+          <span style={{ color: "var(--ziwei-gold)" }}>十二宫</span>分别是：命宫、兄弟、夫妻、子女、财帛、疾厄、迁移、仆役、官禄、田宅、福德、父母。
+        </p>
+        <p>
+          <span style={{ color: "var(--ziwei-gold)" }}>大限</span>是以十年为一周期的大运，从命宫起顺逆旋行十二宫，一个人一生会经历 8-9 个大限。
+        </p>
+        <p className="opacity-70 text-xs md:text-sm pt-1">
+          本站使用开源库 <span className="italic">iztro</span>（MIT）进行排盘。
+        </p>
+      </CollapsibleIntro>
 
       {/* 出生日期 */}
       <section className="mb-8 md:mb-10">

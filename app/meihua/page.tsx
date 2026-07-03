@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Flower2 } from "lucide-react";
+import CollapsibleIntro from "@/components/CollapsibleIntro";
 
 type CastMethod = "time" | "number" | "text";
 
@@ -96,45 +97,31 @@ export default function MeihuaIntro() {
       </section>
 
       {/* 说明：什么是梅花易数 */}
-      <section
-        className="mb-10 md:mb-14 p-5 md:p-7 rounded-lg border-2 bg-white/40"
-        style={{
-          borderColor: "var(--meihua-border)",
-        }}
+      <CollapsibleIntro
+        themeColor="#B22222"
+        summary={
+          <p>
+            <span style={{ color: "var(--meihua-red)" }}>梅花易数</span>是宋代邵雍创立的简易占卜法，不需铜钱工具，万物皆可起卦。本站提供三种起卦方式：时间、数字、字数。
+          </p>
+        }
       >
-        <div
-          className="text-xs tracking-[0.3em] mb-3"
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            color: "var(--meihua-red)",
-          }}
-        >
-          ABOUT THIS METHOD
-        </div>
-        <div
-          className="text-sm md:text-[15px] opacity-90 leading-loose space-y-2"
-          style={{ fontFamily: "'Noto Serif SC', serif" }}
-        >
+        <p>相传邵雍在梅花下见人折花，以时刻起卦推算而得名。日期、数字、字数、声音、方位都可以用作起卦依据。</p>
+        <p>本站三种起卦方式背后的数学原理：</p>
+        <div className="pl-2 space-y-1.5">
           <p>
-            <span style={{ color: "var(--meihua-red)" }}>梅花易数</span>是宋代大儒邵雍创立的簡易占卜法。相传邵雍在梅花下见人折花，以时刻起卦推算而得名。它不需铜钱不需工具，万物皆可起卦——日期可以、数字可以、字数可以、声音可以、方位也可以。
+            <span style={{ color: "var(--meihua-red)" }}>① 时间起卦</span>：取当前年支序数 + 月 + 日，mod 8 得上卦；再加时辰 mod 8 得下卦；相加 mod 6 得动爻。
           </p>
-          <p>本站提供三种起卦方式，其背后的数学原理均源自《梅花易数》原书：</p>
-          <div className="pl-2 space-y-1.5">
-            <p>
-              <span style={{ color: "var(--meihua-red)" }}>② 时间起卦</span>：取当前年支序数 + 月 + 日，除 8 取余得上卦；再加时辰除 8 得下卦；上下相加除 6 得动爻。
-            </p>
-            <p>
-              <span style={{ color: "var(--meihua-red)" }}>② 数字起卦</span>：你写两个数字，分别除 8 取余为上卦下卦，两数相加除 6 为动爻。
-            </p>
-            <p>
-              <span style={{ color: "var(--meihua-red)" }}>② 字数起卦</span>：你写一句话，前半字数除 8 为上卦，后半除 8 为下卦，总字数除 6 为动爻。
-            </p>
-          </div>
           <p>
-            起卦得本卦后，动爻变化得变卦，以本卦、变卦、动爻位置以及体用五行生克判断吉凶。
+            <span style={{ color: "var(--meihua-red)" }}>② 数字起卦</span>：你写两个数字，分别 mod 8 为上卦下卦，两数相加 mod 6 为动爻。
+          </p>
+          <p>
+            <span style={{ color: "var(--meihua-red)" }}>③ 字数起卦</span>：你写一句话，前半字数 mod 8 为上卦，后半 mod 8 为下卦，总字数 mod 6 为动爻。
           </p>
         </div>
-      </section>
+        <p>
+          起卦得本卦后，动爻变化得变卦，以本卦、变卦、动爻位置以及体用五行生克判断吉凶。
+        </p>
+      </CollapsibleIntro>
 
       {/* Step 1 · 选起卦方式 */}
       <section className="mb-10 md:mb-14">
