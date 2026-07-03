@@ -19,7 +19,7 @@ export default function TarotIntro() {
   return (
     <main className="max-w-4xl mx-auto px-6 md:px-12 py-10 md:py-16">
       {/* 标题 */}
-      <section className="text-center mb-12 md:mb-16">
+      <section className="text-center mb-10 md:mb-14">
         <div
           className="text-xs tracking-[0.4em] gold mb-4"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -40,6 +40,39 @@ export default function TarotIntro() {
           <br />
           静下心，想一个问题，选一个牌阵。
         </p>
+      </section>
+
+      {/* 说明：什么是塔罗 · 如何抽牌 */}
+      <section
+        className="mb-10 md:mb-14 p-5 md:p-7 rounded-lg border"
+        style={{
+          borderColor: "rgba(212,175,55,0.2)",
+          background: "rgba(212,175,55,0.03)",
+        }}
+      >
+        <div
+          className="text-xs gold tracking-[0.3em] mb-3"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          ABOUT THIS METHOD
+        </div>
+        <div
+          className="text-sm md:text-[15px] opacity-90 leading-loose space-y-2"
+          style={{ fontFamily: "'Noto Serif SC', serif" }}
+        >
+          <p>
+            <span className="gold">塔罗牌</span>起源于中世纪欧洲，现代流行的是 1909 年英国玩具商 Rider、作者 Waite、插画师 Smith 合作设计的 <span className="italic gold">Rider-Waite-Smith</span> 牌组，共 78 张（大阿卡纳 22 张 + 小阿卡纳 56 张 · 权杖/圣杯/宝剑/星币四花色）。
+          </p>
+          <p>
+            本站塔罗的抽牌方式：
+          </p>
+          <ol className="list-decimal list-inside space-y-1 pl-2 opacity-95">
+            <li>你选择一个牌阵（单张 / 三张 / 凯尔特十字），写下心中的问题。</li>
+            <li>系统完全洗牌（Fisher-Yates 随机打乱 78 张），将牌扇开铺在你面前。</li>
+            <li>你凭直觉选择相应数量的牌。每张牌有 50% 概率为逆位（牌面倒置，含义与正位相反）。</li>
+            <li>根据牌意 + 正逆位 + 你选的牌阵位置含义，给出完整解读。</li>
+          </ol>
+        </div>
       </section>
 
       {/* Step 1: 选牌阵 */}

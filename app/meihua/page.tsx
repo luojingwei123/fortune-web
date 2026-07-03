@@ -69,7 +69,7 @@ export default function MeihuaIntro() {
   return (
     <main className="max-w-4xl mx-auto px-6 md:px-12 py-10 md:py-16">
       {/* 标题 */}
-      <section className="text-center mb-12 md:mb-16">
+      <section className="text-center mb-10 md:mb-14">
         <div
           className="text-xs tracking-[0.4em] mb-3 opacity-60"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -89,10 +89,51 @@ export default function MeihuaIntro() {
           className="text-sm md:text-base opacity-80 leading-loose max-w-lg mx-auto"
           style={{ fontFamily: "'Noto Serif SC', serif" }}
         >
-          梅花易数 · 宋代邵雍所创
+          梅花易数 · 宋代邵雍（邵康节）所创
           <br />
           万物皆可起卦 · 起卦即断
         </p>
+      </section>
+
+      {/* 说明：什么是梅花易数 */}
+      <section
+        className="mb-10 md:mb-14 p-5 md:p-7 rounded-lg border-2 bg-white/40"
+        style={{
+          borderColor: "var(--meihua-border)",
+        }}
+      >
+        <div
+          className="text-xs tracking-[0.3em] mb-3"
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            color: "var(--meihua-red)",
+          }}
+        >
+          ABOUT THIS METHOD
+        </div>
+        <div
+          className="text-sm md:text-[15px] opacity-90 leading-loose space-y-2"
+          style={{ fontFamily: "'Noto Serif SC', serif" }}
+        >
+          <p>
+            <span style={{ color: "var(--meihua-red)" }}>梅花易数</span>是宋代大儒邵雍创立的簡易占卜法。相传邵雍在梅花下见人折花，以时刻起卦推算而得名。它不需铜钱不需工具，万物皆可起卦——日期可以、数字可以、字数可以、声音可以、方位也可以。
+          </p>
+          <p>本站提供三种起卦方式，其背后的数学原理均源自《梅花易数》原书：</p>
+          <div className="pl-2 space-y-1.5">
+            <p>
+              <span style={{ color: "var(--meihua-red)" }}>② 时间起卦</span>：取当前年支序数 + 月 + 日，除 8 取余得上卦；再加时辰除 8 得下卦；上下相加除 6 得动爻。
+            </p>
+            <p>
+              <span style={{ color: "var(--meihua-red)" }}>② 数字起卦</span>：你写两个数字，分别除 8 取余为上卦下卦，两数相加除 6 为动爻。
+            </p>
+            <p>
+              <span style={{ color: "var(--meihua-red)" }}>② 字数起卦</span>：你写一句话，前半字数除 8 为上卦，后半除 8 为下卦，总字数除 6 为动爻。
+            </p>
+          </div>
+          <p>
+            起卦得本卦后，动爻变化得变卦，以本卦、变卦、动爻位置以及体用五行生克判断吉凶。
+          </p>
+        </div>
       </section>
 
       {/* Step 1 · 选起卦方式 */}

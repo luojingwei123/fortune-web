@@ -63,7 +63,7 @@ export default function ZiweiIntro() {
   return (
     <main className="max-w-3xl mx-auto px-6 md:px-12 py-10 md:py-16">
       {/* 标题 */}
-      <section className="text-center mb-12 md:mb-16">
+      <section className="text-center mb-10 md:mb-14">
         <div
           className="text-xs tracking-[0.4em] mb-3 opacity-60"
           style={{
@@ -86,10 +86,49 @@ export default function ZiweiIntro() {
           className="text-sm md:text-base opacity-80 leading-loose max-w-lg mx-auto"
           style={{ fontFamily: "'Noto Serif SC', serif" }}
         >
-          由生辰四柱定位十四主星在十二宫中的分布
+          中国星盘命理术·传为宋代陈希夷所创
           <br />
-          一张命盘照见你的性格、机遇与关系
+          由生辰定位十四主星于十二宫，一盘见一生
         </p>
+      </section>
+
+      {/* 说明 */}
+      <section
+        className="mb-10 md:mb-14 p-5 md:p-7 rounded-lg border"
+        style={{
+          borderColor: "rgba(201,162,39,0.25)",
+          background: "rgba(155,89,182,0.05)",
+        }}
+      >
+        <div
+          className="text-xs tracking-[0.3em] mb-3"
+          style={{
+            fontFamily: "'Cinzel', serif",
+            color: "var(--ziwei-gold)",
+          }}
+        >
+          ABOUT THIS METHOD
+        </div>
+        <div
+          className="text-sm md:text-[15px] leading-loose opacity-90 space-y-2"
+          style={{ fontFamily: "'Noto Serif SC', serif" }}
+        >
+          <p>
+            <span style={{ color: "var(--ziwei-gold)" }}>紫微斗数</span>是中国古代星象命理术，以北斗中的“紫微大帝”为主星而得名。相传为宋代华山道士陈希夷（陈滂）所创，具体法门在明代《紫微斗数全书》中定型，又称“天下第一神数”。
+          </p>
+          <p>
+            <span style={{ color: "var(--ziwei-gold)" }}>排盘方式</span>：以你的出生年、月、日、时辰四柱为依据，先定命宫与身宫位置，再据“五行局”安紫微星，以紫微为首逐一安定十四主星（紫微、天机、太阳、武曲、天同、廉贞、天府、太阴、贪狼、巨门、天相、天梁、七杀、破军）及各类辅星、煎星、杂耀，之后确定大限与四化。
+          </p>
+          <p>
+            <span style={{ color: "var(--ziwei-gold)" }}>十二宫</span>分别是：命宫、兄弟、夫妻、子女、财帛、疾厄、迁移、仆役（友宫）、官禄（事业）、田宅、福德、父母。一盘长得什么样，就看十四主星分别落到哪一宫。
+          </p>
+          <p>
+            <span style={{ color: "var(--ziwei-gold)" }}>大限</span>是以十年为一周期的大运，从命宫起顺逆旋行十二宫，一个人一生会经历 8-9 个大限，每个十年各有制高点。
+          </p>
+          <p className="opacity-70 text-xs md:text-sm pt-1">
+            本站使用开源库 <span className="italic">iztro</span>（MIT）进行排盘，只需你提供公历生辰 + 时辰 + 性别，即可得到完整命盘。
+          </p>
+        </div>
       </section>
 
       {/* 出生日期 */}

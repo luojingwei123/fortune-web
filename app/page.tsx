@@ -3,16 +3,6 @@ import { Sparkles, Flower2, Coins, Star } from "lucide-react";
 
 const methods = [
   {
-    key: "tarot",
-    name: "塔罗牌",
-    subtitle: "Tarot",
-    desc: "78 张韦特塔罗，抽一张问一次心",
-    href: "/tarot",
-    icon: Sparkles,
-    accent: "from-purple-900 to-indigo-950",
-    status: "available",
-  },
-  {
     key: "meihua",
     name: "梅花易数",
     subtitle: "Meihua Yi",
@@ -40,6 +30,16 @@ const methods = [
     href: "/ziwei",
     icon: Star,
     accent: "from-violet-900 to-slate-950",
+    status: "available",
+  },
+  {
+    key: "tarot",
+    name: "塔罗牌",
+    subtitle: "Tarot",
+    desc: "78 张韦特塔罗，抽一张问一次心",
+    href: "/tarot",
+    icon: Sparkles,
+    accent: "from-purple-900 to-indigo-950",
     status: "available",
   },
 ];
