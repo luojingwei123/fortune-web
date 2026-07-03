@@ -7,6 +7,12 @@ import { motion } from "framer-motion";
 import { RotateCcw, Home, Sparkles } from "lucide-react";
 import { tarotDeck, suitLabels } from "@/data/tarot";
 import { getSpread } from "@/data/spreads";
+import {
+  buildOrientationMeaning,
+  buildPositionInterpretation,
+  buildActionAdvice,
+  buildOverallAdvice,
+} from "@/data/interpretation";
 
 interface ParsedCard {
   cardId: number;
@@ -23,64 +29,6 @@ function parseCardsParam(raw: string | null): ParsedCard[] {
       return { cardId: parseInt(m[1], 10), reversed: m[2] === "r" };
     })
     .filter((x): x is ParsedCard => x !== null);
-}
-
-/**
- * 静态解读生成器（无 LLM）：
- * 根据牌阵位置含义 + 牌意（正/逆）+ 关键词，生成结合上下文的段落。
- */
-function buildInterpretation(opts: {
-  spreadName: string;
-  positionLabel: string;
-  positionHint: string;
-  cardName: string;
-  reversed: boolean;
-  meaning: string;
-  keywords: string;
-}): string {
-  const { positionLabel, positionHint, cardName, reversed, meaning, keywords } =
-    opts;
-  const orient = reversed ? "逆位" : "正位";
-  return `在「${positionLabel}」这个位置，你抽到了${cardName}（${orient}）。此位置代表：${positionHint}。${orient}状态下的这张牌暗示：${meaning}关键词：${keywords}。`;
-}
-
-/**
- * 综合建议：把所有位置的关键词合并 → 给出一段综合语。
- */
-function buildOverallAdvice(
-  cards: { card: (typeof tarotDeck)[number]; reversed: boolean }[],
-  question: string
-): string {
-  const posCount = cards.filter((c) => !c.reversed).length;
-  const negCount = cards.length - posCount;
-
-  let mood = "";
-  if (posCount === cards.length) {
-    mood =
-      "整体牌面积极正向，能量流动顺畅。当前是行动、投入、把握机会的好时机。";
-  } else if (negCount === cards.length) {
-    mood =
-      "整体牌面偏向阻滞与反思，暗示需要放慢脚步、审视内心，或调整方向。";
-  } else if (posCount > negCount) {
-    mood =
-      "整体正向多于阻碍。虽然存在一些需要面对的挑战，但主线仍是向前推进的。";
-  } else if (negCount > posCount) {
-    mood =
-      "阻碍略多于顺遂。这段时期需要多一些耐心和审视，与其硬闯，不如调整。";
-  } else {
-    mood = "顺逆并存。牌面提醒你在推进的同时也要留意暗流。";
-  }
-
-  const themes = cards
-    .flatMap((c) => c.card.keywordsPositive.split("、"))
-    .slice(0, 6)
-    .join("、");
-
-  const questionPart = question
-    ? `围绕你的问题「${question}」，`
-    : "综合来看，";
-
-  return `${questionPart}${mood}你需要关注的核心主题包括：${themes}。塔罗从来不预言唯一未来，它是一面镜子，映照出你此刻的状态与可能性。真正的选择权仍在你自己手中。`;
 }
 
 function TarotResultInner() {
@@ -104,11 +52,9 @@ function TarotResultInner() {
   }, [parsed, spread]);
 
   const overallAdvice = useMemo(() => {
-    return buildOverallAdvice(
-      drawnCards.map((d) => ({ card: d.card, reversed: d.reversed })),
-      question
-    );
-  }, [drawnCards, question]);
+    if (!spread || drawnCards.length === 0) return "";
+    return buildOverallAdvice(drawnCards, question, spread.name);
+  }, [drawnCards, question, spread]);
 
   if (!spread || drawnCards.length === 0) {
     return (
@@ -157,8 +103,8 @@ function TarotResultInner() {
         )}
       </motion.section>
 
-      {/* 卡牌网格 */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
+      {/* 卡牌详细解读 */}
+      <section className="space-y-6 md:space-y-8 mb-12">
         {drawnCards.map((d, idx) => {
           const meaning = d.reversed ? d.card.reversed : d.card.upright;
           const keywords = d.reversed
@@ -166,7 +112,7 @@ function TarotResultInner() {
             : d.card.keywordsPositive;
 
           return (
-            <motion.div
+            <motion.article
               key={`${d.card.id}-${idx}`}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -182,28 +128,33 @@ function TarotResultInner() {
                   >
                     {d.position.index}
                   </span>
-                  <span
-                    className="text-sm md:text-base"
-                    style={{ fontFamily: "'Noto Serif SC', serif" }}
-                  >
-                    {d.position.label}
-                  </span>
+                  <div>
+                    <div
+                      className="text-sm md:text-base"
+                      style={{ fontFamily: "'Noto Serif SC', serif" }}
+                    >
+                      {d.position.label}
+                    </div>
+                    <div className="text-[10px] opacity-60 mt-0.5">
+                      {d.position.hint}
+                    </div>
+                  </div>
                 </div>
                 <span
-                  className={`text-xs px-2 py-0.5 rounded border ${
+                  className={`text-xs px-2.5 py-1 rounded border flex-shrink-0 ${
                     d.reversed
-                      ? "border-red-400/50 text-red-300/90"
-                      : "border-[var(--tarot-gold)]/50 gold"
+                      ? "border-red-400/50 text-red-300/90 bg-red-950/20"
+                      : "border-[var(--tarot-gold)]/50 gold bg-[rgba(212,175,55,0.08)]"
                   }`}
                 >
                   {d.reversed ? "逆位" : "正位"}
                 </span>
               </div>
 
-              <div className="p-5 md:p-6 flex flex-col md:flex-row gap-5 md:gap-6">
+              <div className="p-5 md:p-7 flex flex-col md:flex-row gap-5 md:gap-7">
                 {/* 牌图 */}
-                <div className="flex-shrink-0 mx-auto md:mx-0">
-                  <div className="w-28 md:w-36 rounded-lg overflow-hidden shadow-[0_0_25px_rgba(212,175,55,0.2)] border border-[var(--tarot-gold)]/40">
+                <div className="flex-shrink-0 mx-auto md:mx-0 md:sticky md:top-4 self-start">
+                  <div className="w-36 md:w-44 rounded-lg overflow-hidden shadow-[0_0_25px_rgba(212,175,55,0.25)] border border-[var(--tarot-gold)]/40">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={d.card.image}
@@ -211,13 +162,9 @@ function TarotResultInner() {
                       className={`w-full ${d.reversed ? "rotate-180" : ""}`}
                     />
                   </div>
-                </div>
-
-                {/* 牌意 */}
-                <div className="flex-1 min-w-0">
-                  <div className="mb-3">
+                  <div className="text-center mt-3">
                     <div
-                      className="text-xl md:text-2xl mb-1"
+                      className="text-xl mb-0.5"
                       style={{ fontFamily: "'Noto Serif SC', serif" }}
                     >
                       {d.card.nameCn}
@@ -226,68 +173,100 @@ function TarotResultInner() {
                       className="text-xs gold opacity-75 tracking-widest italic"
                       style={{ fontFamily: "'Cormorant Garamond', serif" }}
                     >
-                      {d.card.nameEn} · {suitLabels[d.card.suit]}
+                      {d.card.nameEn}
+                    </div>
+                    <div className="text-[10px] opacity-50 mt-1">
+                      {suitLabels[d.card.suit]}
                     </div>
                   </div>
+                </div>
 
-                  {/* ⚠️ 原本结果（客观牌意） */}
-                  <div className="mb-3 p-3 rounded bg-[rgba(212,175,55,0.05)] border border-[rgba(212,175,55,0.12)]">
+                {/* 六段式解读 */}
+                <div className="flex-1 min-w-0 space-y-5">
+                  {/* 1. 关键词 */}
+                  <div className="p-3 rounded bg-[rgba(212,175,55,0.05)] border border-[rgba(212,175,55,0.12)]">
                     <div
-                      className="text-[10px] gold tracking-[0.2em] mb-1"
+                      className="text-[10px] gold tracking-[0.25em] mb-1.5"
                       style={{ fontFamily: "'Cormorant Garamond', serif" }}
                     >
-                      KEYWORDS · 关键词
+                      ✦ KEYWORDS · 关键词
                     </div>
-                    <div className="text-xs md:text-sm opacity-90">
+                    <div className="text-sm md:text-[15px] opacity-95 leading-relaxed">
                       {keywords}
                     </div>
                   </div>
 
-                  <div className="mb-3">
+                  {/* 2. 传统牌意 */}
+                  <div>
                     <div
-                      className="text-[10px] gold tracking-[0.2em] mb-1"
+                      className="text-[10px] gold tracking-[0.25em] mb-1.5"
                       style={{ fontFamily: "'Cormorant Garamond', serif" }}
                     >
-                      CARD MEANING · 牌意
+                      ✦ TRADITIONAL MEANING · 传统牌意
                     </div>
-                    <p className="text-xs md:text-sm leading-relaxed opacity-90">
+                    <p className="text-sm md:text-[15px] leading-loose opacity-90">
                       {meaning}
                     </p>
                   </div>
 
-                  {/* ⚠️ 解读（结合位置的解释） */}
+                  {/* 3. 正/逆位深度含义 */}
                   <div>
                     <div
-                      className="text-[10px] gold tracking-[0.2em] mb-1"
+                      className="text-[10px] gold tracking-[0.25em] mb-1.5"
                       style={{ fontFamily: "'Cormorant Garamond', serif" }}
                     >
-                      INTERPRETATION · 位置解读
+                      ✦ {d.reversed ? "REVERSED" : "UPRIGHT"} DEPTH ·{" "}
+                      {d.reversed ? "逆位" : "正位"}深度含义
                     </div>
-                    <p className="text-xs md:text-sm leading-relaxed opacity-80 italic">
-                      {buildInterpretation({
-                        spreadName: spread.name,
-                        positionLabel: d.position.label,
-                        positionHint: d.position.hint,
-                        cardName: d.card.nameCn,
-                        reversed: d.reversed,
-                        meaning,
-                        keywords,
-                      })}
+                    <p className="text-sm md:text-[15px] leading-loose opacity-90">
+                      {buildOrientationMeaning(d.card, d.reversed)}
+                    </p>
+                  </div>
+
+                  {/* 4. 位置结合解读 */}
+                  <div className="border-l-2 border-[var(--tarot-gold)]/40 pl-4">
+                    <div
+                      className="text-[10px] gold tracking-[0.25em] mb-1.5"
+                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    >
+                      ✦ IN THIS POSITION · 位置结合解读
+                    </div>
+                    <p className="text-sm md:text-[15px] leading-loose opacity-95">
+                      {buildPositionInterpretation(
+                        d.card,
+                        d.reversed,
+                        d.position,
+                        spread,
+                        question
+                      )}
+                    </p>
+                  </div>
+
+                  {/* 5. 建议行动 */}
+                  <div className="p-4 rounded bg-[rgba(212,175,55,0.04)] border border-[rgba(212,175,55,0.15)]">
+                    <div
+                      className="text-[10px] gold tracking-[0.25em] mb-1.5"
+                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    >
+                      ✦ ACTION · 建议行动
+                    </div>
+                    <p className="text-sm md:text-[15px] leading-loose opacity-95">
+                      {buildActionAdvice(d.card, d.reversed, d.position)}
                     </p>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           );
         })}
       </section>
 
-      {/* 综合建议 */}
+      {/* 综合建议（加长） */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.15 * drawnCards.length }}
-        className="mb-12 p-6 md:p-8 rounded-lg border border-[var(--tarot-gold)]/40 bg-gradient-to-b from-[rgba(212,175,55,0.08)] to-transparent"
+        className="mb-12 p-6 md:p-9 rounded-lg border border-[var(--tarot-gold)]/40 bg-gradient-to-b from-[rgba(212,175,55,0.1)] to-transparent"
       >
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="w-4 h-4 gold" strokeWidth={1.5} />
@@ -295,11 +274,11 @@ function TarotResultInner() {
             className="text-xs gold tracking-[0.3em]"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            OVERALL · 综合建议
+            OVERALL READING · 综合建议
           </div>
         </div>
         <p
-          className="text-sm md:text-base leading-loose"
+          className="text-sm md:text-base leading-loose whitespace-pre-line"
           style={{ fontFamily: "'Noto Serif SC', serif" }}
         >
           {overallAdvice}
