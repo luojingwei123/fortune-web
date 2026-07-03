@@ -93,7 +93,7 @@ export function buildMeihuaResult(
   if (!benGua) return null;
 
   // 本卦六爻（从下到上）：先取下卦 3 爻，再取上卦 3 爻
-  const benLines = [...lower.lines, ...upper.lines];
+  const benLines: number[] = [...lower.lines, ...upper.lines];
 
   // 变卦：动爻位置反转
   const bianLines = benLines.slice();

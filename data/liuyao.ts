@@ -92,7 +92,7 @@ export function buildLiuyaoResult(code: string): LiuyaoResult | null {
   if (yaoTypes.length !== 6) return null;
 
   // 本卦：每爻的 value
-  const benLines = yaoTypes.map((t) =>
+  const benLines: number[] = yaoTypes.map((t) =>
     t === "oldYang" || t === "youngYang" ? 1 : 0
   );
 
